@@ -12,7 +12,7 @@
 /* 英文字体 */
 @font-face {
     font-family: "朱雀仿宋";
-    src: url("/fonts/朱雀仿宋.ttf") format("truetype");
+    src: url("朱雀仿宋.ttf") format("truetype");
     font-weight: 400;
     font-display: swap;
 }
@@ -20,7 +20,7 @@
 /* 中日韩字体 */
 @font-face {
     font-family: "朱雀仿宋";
-    src: url("/fonts/朱雀仿宋.ttf") format("truetype");
+    src: url("朱雀仿宋.ttf") format("truetype");
     font-weight: 500;
     font-display: swap;
 }

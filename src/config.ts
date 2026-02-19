@@ -207,15 +207,15 @@ export const siteConfig: SiteConfig = {
 			// 英文字体 - 优先级最高
 			// 指定为英文字体则无论字体包含多大范围，都只会保留 ASCII 字符子集
 			fontFamily: "朱雀仿宋",
-      fontWeight: "400",
-      localFonts: ["朱雀仿宋.ttf"],
-      enableCompress: true,
+            fontWeight: "400",
+            localFonts: ["朱雀仿宋.ttf"],
+            enableCompress: true,
     },
-    cjkFont: {
-      fontFamily: "朱雀仿宋",
-      fontWeight: "500",
-      localFonts: ["朱雀仿宋.ttf"],
-      enableCompress: true,
+        cjkFont: {
+            fontFamily: "朱雀仿宋",
+            fontWeight: "500",
+            localFonts: ["朱雀仿宋.ttf"],
+            enableCompress: true,
     },
 	},
 	showLastModified: true,
@@ -273,6 +273,7 @@ export const navBarConfig: NavBarConfig = {
 					url: "/albums/",
 					icon: "material-symbols:photo-library",
 				},
+
 			],
 		},
 		{
@@ -286,11 +287,11 @@ export const navBarConfig: NavBarConfig = {
 					icon: "material-symbols:work",
 				},
 				
-				// {
-				// 	name: "尘世闲游",
-				// 	url: "/skills/",
-				// 	icon: "material-symbols:psychology",
-				// },
+				{
+					name: "尘世闲游",
+					url: "/skills/",
+					icon: "material-symbols:psychology",
+				},
 
 				{
 					name: "尘世之外",
@@ -356,7 +357,9 @@ export const navBarConfig: NavBarConfig = {
 				{
 					name: "朋友圈",
 					url: "/archive/",
-					icon: "material-symbols:group",
+					icon: "material-symbols:public",
+
+
 				},
 			],
 		},
