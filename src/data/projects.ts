@@ -28,8 +28,8 @@ export const projectsData: Project[] = [
 		category: "web",
 		techStack: ["Astro", "Mizuki", "Js", "Css"],
 		status: "completed",
-		sourceCode: "https://github.com/qitinyu/YQ", // 更改为GitHub链接
-		visitUrl: "https://yqamm.netlify.app/", // 添加前往项目链接
+		sourceCode: "https://github.com/qitinyu/YuQi", // 更改为GitHub链接
+		visitUrl: "https://yqamm.eu.cc/", // 添加前往项目链接
 		startDate: "2025-11-01",
 		endDate: "2025-12-01",
 		featured: true,
@@ -37,7 +37,7 @@ export const projectsData: Project[] = [
 	},
 	{
 		id: "portfolio-website",
-		title: "hutao sfq",
+		title: "Hutao sfq",
 		description:
 			"简单的静态博客网站，使用github pages部署。",
 		image: "",
@@ -54,13 +54,13 @@ export const projectsData: Project[] = [
 
 	{
 		id: "portfolio-website",
-		title: "hutao-blog",
+		title: "Hutao-blog",
 		description:
 			"纯静态的个人网站，使用netlify部署。",
 		image: "",
 		category: "web",
 		techStack: ["HTTML", "CSS", "JavaScript"],
-		status: "completed",
+		status: "in-progress",
 		sourceCode: "https://github.com/qitinyu/hutao-blog",
 		visitUrl: "https://hutaoblog.netlify.app/", // 添加前往项目链接
 		startDate: "2025-09-01",
@@ -71,13 +71,13 @@ export const projectsData: Project[] = [
 	
 	{
 		id: "portfolio-website",
-		title: "胡桃小屋",
+		title: "胡桃小屋O",
 		description:
 			"纯静态的个人网站，使用GitHub Pages部署。",
 		image: "",
 		category: "web",
 		techStack: ["HTTML", "CSS", "JavaScript"],
-		status: "completed",
+		status: "planned",
 		sourceCode: " https://qitinyu.github.io/hutaolove/",
 		visitUrl: " https://qitinyu.github.io/hutaolove/", // 添加前往项目链接
 		startDate: "2025-09-01",
@@ -99,20 +99,24 @@ export const projectsData: Project[] = [
 		startDate: "2025-06-05",
 		endDate: "2025-6-16",
 		featured: true,
-		tags: ["Portfolio", "React", "Animation"],
+		tags: ["denlu", "github", "web"],
 	},
-	// {
-	// 	id: "task-manager-app",
-	// 	title: "Task Manager App",
-	// 	description:
-	// 		"Cross-platform task management application supporting team collaboration and project management.",
-	// 	image: "",
-	// 	category: "mobile",
-	// 	techStack: ["React Native", "TypeScript", "Redux", "Firebase"],
-	// 	status: "in-progress",
-	// 	startDate: "2024-03-01",
-	// 	tags: ["Mobile", "Productivity", "Team Collaboration"],
-	// },
+	{
+		id: "task-manager-app",
+		title: "雨祁导航",
+		description:
+			"小白写的导航网页，免费好用。",
+		image: "",
+		category: "web",
+		techStack: ["HTML", "CSS", "JavaScript"],
+		status: "in-progress",
+		sourceCode: "https://qitinyu.github.io/YQ-nav/",
+		visitUrl: "https://qitinyu.github.io/YQ-nav/",
+		startDate: "2026-02-19",
+		endDate: "2025-6-16",
+		featured: true,
+		tags: ["daohang"],
+	},
 	// {
 	// 	id: "data-visualization-tool",
 	// 	title: "Data Visualization Tool",

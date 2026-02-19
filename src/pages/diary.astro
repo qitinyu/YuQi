@@ -1,285 +1,358 @@
 ---
-import { siteConfig } from "../config";
+// 更新导入路径
+import { diaryConfig } from "../data/diary";
 import { getDiaryList, getDiaryStats } from "../data/diary";
 import I18nKey from "../i18n/i18nKey";
 import { i18n } from "../i18n/translation";
 import MainGridLayout from "../layouts/MainGridLayout.astro";
 
-// 检查日记页面是否启用
-if (!siteConfig.featurePages.diary) {
-	return Astro.redirect("/404/");
+// 引入Markdown解析器
+import { marked } from 'marked';
+
+// 使用新的配置对象
+if (!diaryConfig.enable) {
+    return Astro.redirect("/404/");
 }
 
-// 获取日记数据
 const moments = getDiaryList();
 const diaryStats = getDiaryStats();
 
-// 时间格式化函数
+// 时间格式化函数（使用新配置）
 function formatTime(dateString: string): string {
-	var TG = 8;
-	if (siteConfig.timeZone >= -12 && siteConfig.timeZone <= 12)
-		TG = siteConfig.timeZone;
-	const timeGap = TG;
+    const timeGap = diaryConfig.utcTimeZone;
+    const now = new Date();
+    const date = new Date(dateString);
+    const diffInMinutes = Math.floor(
+        (now.getTime() + timeGap * 60 * 60 * 1000 - date.getTime()) / (1000 * 60),
+    );
 
-	const lang = siteConfig.lang;
-	const now = new Date();
-	const date = new Date(dateString);
-	const diffInMinutes = Math.floor(
-		(now.getTime() + timeGap * 60 * 60 * 1000 - date.getTime()) / (1000 * 60),
-	);
-
-	if (diffInMinutes < 60) {
-		return `${diffInMinutes}${i18n(I18nKey.diaryMinutesAgo)}`;
-	}
-	if (diffInMinutes < 1440) {
-		// 24小时
-		const hours = Math.floor(diffInMinutes / 60);
-		return `${hours}${i18n(I18nKey.diaryHoursAgo)}`;
-	}
-	const days = Math.floor(diffInMinutes / 1440);
-	return `${days}${i18n(I18nKey.diaryDaysAgo)}`;
+    if (diffInMinutes < 60) {
+        return `${diffInMinutes}${i18n(I18nKey.diaryMinutesAgo)}`;
+    }
+    if (diffInMinutes < 1440) {
+        const hours = Math.floor(diffInMinutes / 60);
+        return `${hours}${i18n(I18nKey.diaryHoursAgo)}`;
+    }
+    const days = Math.floor(diffInMinutes / 1440);
+    return `${days}${i18n(I18nKey.diaryDaysAgo)}`;
 }
+
+// 安全解析Markdown
+async function parseMarkdown(content: string): Promise<string> {
+    return marked.parse(content, {
+        breaks: true,
+        gfm: true,
+    });
+}
+
+// 假设这是一个组件中的方法
+async function displayParsedContent(content: string) {
+    try {
+        const parsedContent = await parseMarkdown(content);
+        // 这里可以将解析后的内容设置到组件的状态中
+        // 例如：this.setState({ parsedContent });
+        console.log(parsedContent);
+    } catch (error) {
+        console.error('解析Markdown时出错:', error);
+        // 处理解析错误
+    }
+}
+
+// 假设这是在某个事件触发时调用 displayParsedContent
+// 例如在某个按钮点击事件中
+async function onButtonClick() {
+    const content = "这是要解析的Markdown内容";
+    await displayParsedContent(content);
+}
+
 ---
 
 <MainGridLayout title={i18n(I18nKey.diary)} description="即刻短文">
-	<!-- 引入右侧边栏布局管理器 -->
-  <script>
-    import('/src/scripts/right-sidebar-layout.js');
-  </script>
-	<div class="flex w-full rounded-[var(--radius-large)] overflow-hidden relative min-h-32">
-		<div class="card-base z-10 px-4 py-4 md:px-6 md:py-5 relative w-full">
-		<div class="relative max-w-4xl w-full px-2 md:px-0">
-				<!-- 页面头部 -->
-				<div class="moments-header mb-6">
-					<div class="header-content">
-						<div class="header-info">
-							<h1 class="moments-title text-xl md:text-2xl lg:text-3xl font-bold text-90 mb-1">{i18n(I18nKey.diary)}</h1>
-							<p class="moments-subtitle text-sm md:text-base lg:text-lg text-75">{i18n(I18nKey.diarySubtitle)}</p>
-						</div>
-						<div class="header-stats">
-							<div class="stat-item text-center">
-								<span class="stat-number text-lg md:text-xl lg:text-2xl font-bold text-[var(--primary)]">{diaryStats.total}</span>
-								<span class="stat-label text-xs md:text-sm lg:text-base text-75">{i18n(I18nKey.diaryCount)}</span>
-							</div>
-						</div>
-					</div>
-				</div>
+    <script>
+        import('../scripts/right-sidebar-layout.js');
+    </script>
+    
+    <div class="flex w-full rounded-[var(--radius-large)] overflow-hidden relative min-h-32">
+        <div class="card-base z-10 px-4 py-4 md:px-6 md:py-5 relative w-full">
+            <div class="relative max-w-4xl w-full px-2 md:px-0">
+                <!-- 页面头部 -->
+                <div class="moments-header mb-6">
+                    <div class="header-content">
+                        <div class="header-info">
+                            <h1 class="moments-title text-xl md:text-2xl lg:text-3xl font-bold text-90 mb-1">{i18n(I18nKey.diary)}</h1>
+                            <p class="moments-subtitle text-sm md:text-base lg:text-lg text-75">{i18n(I18nKey.diarySubtitle)}</p>
+                        </div>
+                        <div class="header-stats">
+                            <div class="stat-item text-center">
+                                <span class="stat-number text-lg md:text-xl lg:text-2xl font-bold text-[var(--primary)]">{diaryStats.total}</span>
+                                <span class="stat-label text-xs md:text-sm lg:text-base text-75">{i18n(I18nKey.diaryCount)}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-				<!-- 短文列表 -->
-				<div class="moments-timeline">
-					<div class="timeline-list space-y-4">
-					{moments.map(moment => (
-						<div class="moment-item card-base p-4 md:p-6 lg:p-8 hover:shadow-lg transition-all">
-								<div class="moment-content">
-									<!-- 修改日记文本样式，添加wenzi类名 -->
-									<p class="wenzi moment-text text-sm md:text-base lg:text-lg text-90 leading-relaxed mb-3 md:mb-4">{moment.content}</p>
-									
-									{moment.images && moment.images.length > 0 && (
-				<div class="moment-images grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 md:gap-3 lg:gap-4 mb-3 md:mb-4">
-					{moment.images.map((image, index) => (
-					<div class="image-item relative rounded-md overflow-hidden aspect-square cursor-pointer hover:scale-105 transition-transform">
-						<img 
-							src={image} 
-								alt="diary moment image"
-							class="w-full h-full object-cover"
-							loading="lazy"
-						/>
-					</div>
-					))}
-				</div>
-			)}
-								</div>
-								
-								<hr class="moment-divider border-t border-[var(--line-divider)] my-3 md:my-4" />
-								
-								<div class="moment-footer flex justify-between items-center">
-									<div class="moment-time flex items-center gap-1.5 text-75 text-xs md:text-sm lg:text-base">
-										<i class="time-icon text-xs md:text-sm">🕐</i>
-										<time datetime={moment.date}>
-											{formatTime(moment.date)}
-										</time>
-									</div>
-									
-								</div>
-							</div>
-						))}
-					</div>
-				</div>
+                <!-- 短文列表 -->
+                <div class="moments-timeline">
+                    <div class="timeline-list space-y-4">
+                        {moments.map(moment => (
+                            <div class="moment-item card-base p-4 md:p-6 lg:p-8 hover:shadow-lg transition-all">
+                                <div class="moment-content">
+                                    <!-- 使用Markdown解析 -->
+                                    <div class="wenzi moment-text text-sm md:text-base lg:text-lg text-90 leading-relaxed mb-3 md:mb-4" 
+                                         set:html={parseMarkdown(moment.content)} />
+                                    
+                                    {moment.images && moment.images.length > 0 && (
+  <div class="moment-images flex flex-wrap gap-2 md:gap-3 lg:gap-4 mb-3 md:mb-4">
+  {((moment.images ?? [])).length > 0 && (
+    (moment.images ?? []).map((image) => (
+      <div class={`
+        ${((moment.images ?? []).length === 1 ? 'w-full' : 
+          (moment.images ?? []).length === 2 ? 'w-[calc(50%-0.5rem)]' : 
+          'w-[calc(33.333%-0.666rem)]')}
+        relative rounded-md overflow-hidden aspect-square cursor-pointer
+      `}>
+        <img 
+          src={image} 
+          alt="diary moment image"
+          class="w-full h-full object-cover hover:scale-105 transition-transform"
+          loading="lazy" />
+      </div>
+    ))
+  )}
+</div>
+)}
+                                </div>
+                                
+                                <hr class="moment-divider border-t border-[var(--line-divider)] my-3 md:my-4" />
+                                
+                                <div class="moment-footer flex justify-between items-center">
+                                    <div class="moment-time flex items-center gap-1.5 text-75 text-xs md:text-sm lg:text-base">
+                                        <i class="time-icon text-xs md:text-sm">🕐</i>
+                                        <time datetime={moment.date}>
+                                            {formatTime(moment.date)}
+                                        </time>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
 
-				<!-- 底部提示 -->
-				<div class="moments-tips text-center mt-6 md:mt-8 lg:mt-10 text-75 text-xs md:text-sm lg:text-base italic">
-					{i18n(I18nKey.diaryTips)}
-				</div>
-			</div>
-		</div>
-	</div>
+                <!-- 底部提示 -->
+                <div class="moments-tips text-center mt-6 md:mt-8 lg:mt-10 text-75 text-xs md:text-sm lg:text-base italic">
+                    {i18n(I18nKey.diaryTips)}
+                </div>
+            </div>
+        </div>
+    </div>
 </MainGridLayout>
 
 <style>
-	.card-base {
-		background: var(--card-bg);
-		border: 1px solid var(--line-divider);
-		transition: all 0.3s ease;
-	}
-	
-	/* 新增：wenzi类样式 - 日记文本样式 */
-	.wenzi {
-		text-align: left !important; /* 强制靠左对齐 */
-		line-height: 1.8 !important; /* 设置合适的行高，使文本逐行清晰显示 */
-		white-space: pre-line !important; /* 保留换行符，但合并连续空白符 */
-		font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif !important; /* 使用现代字体 */
-		letter-spacing: 0.01em !important; /* 轻微字间距 */
-		word-break: break-word !important; /* 长单词自动换行 */
-		overflow-wrap: break-word !important; /* 文本溢出时换行 */
-	}
-	
-	/* 确保在移动设备上也有良好的显示 */
-	@media (max-width: 640px) {
-		.wenzi {
-			line-height: 1.7 !important; /* 移动设备上稍小的行高 */
-			font-size: 0.95rem !important; /* 移动设备上稍小的字体 */
-		}
-	}
-	
-	.moments-header {
-		padding: 1rem;
-		border-radius: 8px;
-		background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark, var(--primary)) 100%);
-		color: white;
-		position: relative;
-		overflow: hidden;
-	}
-	
-	.header-content {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		position: relative;
-		z-index: 1;
-	}
-	
-	.moments-title {
-		color: white;
-		text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-	}
-	
-	.moments-subtitle {
-		color: rgba(255, 255, 255, 0.9);
-	}
-	
-	.stat-number {
-		color: white;
-	}
-	
-	.stat-label {
-		color: rgba(255, 255, 255, 0.8);
-	}
-	
-	.image-item img {
-		transition: transform 0.3s ease;
-	}
-	
-	.image-item:hover img {
-		transform: scale(1.05);
-	}
-	
-	.action-btn {
-		background: none;
-		border: none;
-		cursor: pointer;
-		color: var(--text-muted);
-	}
-	
-	.action-btn:hover {
-		color: var(--primary);
-	}
-	
-	/* 响应式设计 */
-	/* 手机端 (小于640px) */
-	@media (max-width: 640px) {
-		.moments-header {
-			padding: 0.75rem;
-		}
-		
-		.header-content {
-			flex-direction: column;
-			text-align: center;
-			gap: 0.75rem;
-		}
-		
-		.moment-images {
-			grid-template-columns: repeat(2, 1fr);
-		}
-		
-		.moment-footer {
-			flex-direction: column;
-			align-items: flex-start;
-			gap: 0.5rem;
-		}
-	}
-	
-	/* 平板竖屏 (641px - 900px) - 优化显示 */
-	@media (min-width: 641px) and (max-width: 900px) {
-		.moments-header {
-			padding: 1.25rem;
-		}
-		
-		.header-content {
-			display: flex;
-			justify-content: space-between;
-			align-items: center;
-		}
-		
-		.moment-item {
-			padding: 1.5rem;
-		}
-		
-		.moment-images {
-			grid-template-columns: repeat(3, 1fr);
-			gap: 0.75rem;
-			max-width: 500px;
-		}
-		
-		.moment-text {
-			font-size: 1rem;
-			line-height: 1.7;
-		}
-		
-		.moment-footer {
-			margin-top: 1rem;
-		}
-	}
-	
-	/* 平板横屏和桌面端 (大于900px) */
-	@media (min-width: 901px) {
-		.moments-header {
-			padding: 1.5rem;
-		}
-		
-		.moment-item {
-			padding: 2rem;
-		}
-		
-		.moment-images {
-			grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-			max-width: 600px;
-			gap: 1rem;
-		}
-		
-		.moment-text {
-			font-size: 1.1rem;
-			line-height: 1.8;
-		}
-	}
-	
-	/* 优化小屏幕显示 */
-	@media (max-width: 480px) {
-		.moment-item {
-			border-radius: 8px;
-		}
-		
-		.moments-header {
-			border-radius: 6px;
-		}
-	}
+    .card-base {
+        background: var(--card-bg);
+        border: 1px solid var(--line-divider);
+        transition: all 0.3s ease;
+    }
+    
+    /* Markdown渲染样式 */
+    .wenzi :global(h1), 
+    .wenzi :global(h2), 
+    .wenzi :global(h3), 
+    .wenzi :global(h4), 
+    .wenzi :global(h5), 
+    .wenzi :global(h6) {
+        margin: 1.2em 0 0.8em;
+        font-weight: bold;
+    }
+    
+    .wenzi :global(p) {
+        margin: 1em 0;
+    }
+    
+    .wenzi :global(ul), 
+    .wenzi :global(ol) {
+        padding-left: 1.5em;
+        margin: 1em 0;
+    }
+    
+    .wenzi :global(li) {
+        margin: 0.5em 0;
+    }
+    
+    .wenzi :global(blockquote) {
+        border-left: 4px solid var(--primary);
+        padding-left: 1em;
+        margin: 1.2em 0;
+        color: var(--text-muted);
+    }
+    
+    .wenzi :global(code) {
+        background: var(--code-bg);
+        padding: 0.2em 0.4em;
+        border-radius: 4px;
+        font-family: 'Fira Code', monospace;
+    }
+    
+    .wenzi :global(pre) {
+        background: var(--code-block-bg);
+        padding: 1em;
+        border-radius: 8px;
+        overflow: auto;
+        margin: 1.2em 0;
+    }
+    
+    .wenzi :global(pre code) {
+        background: none;
+        padding: 0;
+        border-radius: 0;
+    }
+    
+    .wenzi :global(a) {
+        color: var(--primary);
+        text-decoration: underline;
+    }
+    
+    .wenzi :global(a:hover) {
+        text-decoration: none;
+    }
+    
+    .wenzi :global(img) {
+        max-width: 100%;
+        height: auto;
+        border-radius: 8px;
+        margin: 1em 0;
+    }
+    
+    /* 图片尺寸优化 */
+    .image-item {
+        max-width: 150px; /* 限制最大宽度 */
+    }
+    
+    /* 确保在移动设备上也有良好的显示 */
+    @media (max-width: 640px) {
+        .wenzi {
+            line-height: 1.7 !important;
+            font-size: 0.95rem !important;
+        }
+        
+        /* 移动端图片更小 */
+        .moment-images {
+            grid-template-columns: repeat(3, 1fr) !important;
+            gap: 0.5rem !important;
+        }
+        
+        .image-item {
+            max-width: 100px;
+        }
+    }
+    
+    .moments-header {
+        padding: 1rem;
+        border-radius: 8px;
+        background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark, var(--primary)) 100%);
+        color: white;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .header-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: relative;
+        z-index: 1;
+    }
+    
+    .moments-title {
+        color: white;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    }
+    
+    .moments-subtitle {
+        color: rgba(255, 255, 255, 0.9);
+    }
+    
+    .stat-number {
+        color: white;
+    }
+    
+    .stat-label {
+        color: rgba(255, 255, 255, 0.8);
+    }
+    
+    /* 响应式设计 */
+    @media (max-width: 640px) {
+        .moments-header {
+            padding: 0.75rem;
+        }
+        
+        .header-content {
+            flex-direction: column;
+            text-align: center;
+            gap: 0.75rem;
+        }
+        
+        .moment-footer {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.5rem;
+        }
+    }
+    
+    @media (min-width: 641px) and (max-width: 900px) {
+        .moments-header {
+            padding: 1.25rem;
+        }
+        
+        .moment-item {
+            padding: 1.5rem;
+        }
+        
+        .moment-images {
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.75rem;
+            max-width: 500px;
+        }
+        
+        .moment-text {
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+    }
+    
+    @media (min-width: 901px) {
+        .moments-header {
+            padding: 1.5rem;
+        }
+        
+        .moment-item {
+            padding: 2rem;
+        }
+        
+        .moment-images {
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            max-width: 600px;
+            gap: 1rem;
+        }
+        
+        .moment-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .moment-item {
+            border-radius: 8px;
+        }
+        
+        .moments-header {
+            border-radius: 6px;
+        }
+        
+        /* 超小屏幕图片布局 */
+        .moment-images {
+            grid-template-columns: repeat(2, 1fr) !important;
+        }
+    }
 </style>
