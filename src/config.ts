@@ -464,7 +464,7 @@ export const shareConfig: ShareConfig = {
 //公告栏
 export const announcementConfig: AnnouncementConfig = {
 	title: "今日公告", // 公告标题
-	content: "增加文章一篇|重新分类文章tag|优化部分文章命名", // 公告内容
+	content: "添加文章一篇|追番版块回退7.6并添加四则追番记录|增加`project`导航项目一则|更新友链一则", // 公告内容
 	closable: true, // 允许用户关闭公告
 	link: {
 		enable: false, // 启用链接
