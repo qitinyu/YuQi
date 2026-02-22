@@ -325,16 +325,16 @@ export const navBarConfig: NavBarConfig = {
 					icon: "fa6-brands:qq",
 				},
 			    {
-					name: "Umami",
-					url: "https://cloud.umami.is/analytics/us/websites/27a68670-db09-4178-b3c7-8e6fa5d59126",
+					name: "YQPAN",
+					url: "https://yq.yqamma.eu.cc",
 					external: true,
-					icon: "fa6-solid:globe",
+					icon: "fa6-solid:cloud",
 				},
 				{
 					name: "米游社",
 					url: "https://www.miyoushe.com/sr/accountCenter/postList?id=227165994",
 					external: true,
-					icon: "fa6-solid:sun",
+					icon: "fa6-solid:heart",
 				},
 			],
 		},
@@ -358,9 +358,8 @@ export const navBarConfig: NavBarConfig = {
 					name: "朋友圈",
 					url: "/archive/",
 					icon: "material-symbols:public",
-
-
 				},
+				
 			],
 		},
 		
@@ -398,7 +397,7 @@ export const profileConfig: ProfileConfig = {
 		},
 		{
 		 	name: "米游社",
-			icon: "fa6-solid:sun",
+			icon: "fa6-solid:heart",
 		 	url: "https://www.miyoushe.com/sr/accountCenter/postList?id=227165994",
 		},
 
@@ -464,7 +463,7 @@ export const shareConfig: ShareConfig = {
 //公告栏
 export const announcementConfig: AnnouncementConfig = {
 	title: "今日公告", // 公告标题
-	content: "添加文章一篇|追番版块回退7.6并添加四则追番记录|增加`project`导航项目一则|更新友链一则", // 公告内容
+	content: "26022201g更新", // 公告内容
 	closable: true, // 允许用户关闭公告
 	link: {
 		enable: false, // 启用链接
