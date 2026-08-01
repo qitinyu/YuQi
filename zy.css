@@ -133,94 +133,7 @@
             display: none;
         }
 
-        /* --- 1. 轮播图区域 --- */
-        .lunbo-container {
-            width: 100%;
-            height: 300px;
-            overflow: hidden;
-            border-radius: 8px;
-            position: relative;
-            background: #111;
-        }
-
-        .lunbo-track {
-            display: flex;
-            width: 400%;
-            height: 100%;
-            transition: transform 0.5s ease-in-out;
-        }
-
-        .lunbo-item {
-            width: 25%;
-            height: 100%;
-        }
-
-        .lunbo-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .carousel-control {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 40px;
-            height: 40px;
-            background-color: rgba(255, 255, 255, 0.2);
-            color: white;
-            border: none;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 1.2rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0.5;
-            transition: all 0.3s;
-            z-index: 10;
-        }
-
-        .carousel-control:hover {
-            background-color: rgba(255, 255, 255, 0.4);
-            opacity: 1;
-            transform: translateY(-50%) scale(1.1);
-        }
-
-        .carousel-control.prev {
-            left: 15px;
-        }
-
-        .carousel-control.next {
-            right: 15px;
-        }
-
-        .carousel-indicators {
-            position: absolute;
-            bottom: 15px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 8px;
-            z-index: 10;
-        }
-
-        .indicator {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background-color: rgba(255, 255, 255, 0.5);
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .indicator.active {
-            background-color: #fff;
-            transform: scale(1.3);
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
-        }
-
-        /* --- 2. 简介区域 --- */
+        /* --- 简介区域 --- */
         .jianjie h3 {
             font-size: 1.5rem;
             padding-left: 15px;
@@ -251,7 +164,7 @@
         }
 
 
-        /* --- 3. 项目区域 --- */
+        /* --- 项目区域 --- */
         .project {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -390,9 +303,6 @@
                 max-height: none;
             }
 
-            .lunbo-container {
-                height: 200px;
-            }
 
             .project {
                 grid-template-columns: 1fr;

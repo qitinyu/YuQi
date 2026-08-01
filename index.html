@@ -6,10 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="https://i.postimg.cc/P58nMvsQ/wang-biao.png" type="image/x-icon">
     <title>个人主页 | Qi Tinyu</title>
-    <!-- 引入 FontAwesome 图标库 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="zy.css">
-
 </head>
 
 <body>
@@ -21,28 +19,25 @@
             <h2>"生命绚烂，别被黑暗压垮。"</h2>
             <div class="social-links">
                 <a href="https://github.com/qitinyu" title="Github"><i class="fa-brands fa-github-alt"></i></a>
-                <a href="https://www.miyoushe.com/sr/accountCenter/postList?id=227165994" title="米游社"><i
-                        class="fa-brands fa-battle-net"></i></a>
+                <a href="https://gitee.com/qi-tingyu" title="Gitee"><i class="fa-brands fa-bitbucket"></i></a>
+                <a href="https://gitcode.com/user/YQAMM/repo" title="Gitcode"><i class="fa-brands fa-codepen"></i></a>
+                <a href="https://www.miyoushe.com/sr/accountCenter/postList?id=227165994" title="米游社"><i class="fa-brands fa-battle-net"></i></a>
                 <a href="https://space.bilibili.com/3461582895974946" title="B站"><i class="fab fa-bilibili"></i></a>
-                <a href="https://qm.qq.com/cgi-bin/qm/qr?k=-A9MUAbpO68zcu1YAp11NiI3ir7WczLO" title="QQ"><i
-                        class="fa-brands fa-qq"></i></a>
             </div>
         </aside>
 
         <!-- 右侧区域 -->
-
+        <main class="right">
             <!-- 个人简介 -->
             <section class="jianjie">
                 <h3>关于我</h3>
-                <p>你好，欢迎来到我的个人主页。</br></p>
-                    <p>这个世界五彩斑斓，而我依旧想要一个安静简约的地方存放躁动的心灵。</br></p>
-                    <p>这里存放的，不仅是我的思考，还有对美好生活的向往.</p>
+                <p>你好，欢迎来到YuQi的个人主页。</br></p>
             </section>
 
             <!-- 项目展示标题 -->
             <h3 class="project-title">项目展示</h3>
 
-            <!-- 项目展示 -->
+             <!-- 项目展示 -->
             <section class="project">
                 <article class="card">
                     <h1>Sumyu</h1>
@@ -147,72 +142,10 @@
 
     <footer>
         Copyright © 2026<a href="https://github.com/qitinyu" target="_blank" class="one">qitinyu</a>|<a
-            href="https://eu.cc" target="_blank" class="two">yqamm.eu.cc</a>| 484894496@qq.com |
+            href="https://yqamm.top/" target="_blank" class="two">yqamm.top</a>| 484894496@qq.com |
     </footer>
 
-    <!-- JavaScript 用于轮播图交互 -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const track = document.querySelector('.lunbo-track');
-            const indicators = document.querySelectorAll('.indicator');
-            const prevBtn = document.querySelector('.carousel-control.prev');
-            const nextBtn = document.querySelector('.carousel-control.next');
-            const carouselContainer = document.getElementById('carousel');
 
-            let currentIndex = 0;
-            const slideCount = 4; // 实际图片数量
-            const slideIntervalTime = 3000;
-            let slideInterval;
-
-            function updateCarousel() {
-                track.style.transform = `translateX(-${currentIndex * (100 / slideCount)}%)`;
-                indicators.forEach((dot, index) => {
-                    dot.classList.toggle('active', index === currentIndex);
-                });
-            }
-
-            function startAutoPlay() {
-                slideInterval = setInterval(() => {
-                    currentIndex = (currentIndex + 1) % slideCount;
-                    updateCarousel();
-                }, slideIntervalTime);
-            }
-
-            function stopAutoPlay() {
-                clearInterval(slideInterval);
-            }
-
-            prevBtn.addEventListener('click', () => {
-                stopAutoPlay();
-                currentIndex = (currentIndex - 1 + slideCount) % slideCount;
-                updateCarousel();
-                startAutoPlay();
-            });
-
-            nextBtn.addEventListener('click', () => {
-                stopAutoPlay();
-                currentIndex = (currentIndex + 1) % slideCount;
-                updateCarousel();
-                startAutoPlay();
-            });
-
-            indicators.forEach(dot => {
-                dot.addEventListener('click', () => {
-                    stopAutoPlay();
-                    currentIndex = parseInt(dot.getAttribute('data-index'));
-                    // 防止点击第5个指示器越界
-                    if (currentIndex >= slideCount) currentIndex = 0;
-                    updateCarousel();
-                    startAutoPlay();
-                });
-            });
-
-            carouselContainer.addEventListener('mouseenter', stopAutoPlay);
-            carouselContainer.addEventListener('mouseleave', startAutoPlay);
-
-            startAutoPlay();
-        });
-    </script>
 </body>
 
 </html>
